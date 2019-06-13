@@ -1,14 +1,17 @@
 FROM node:10 AS base
-COPY ./ /frontend
+COPY ./src /frontend
 
 WORKDIR /frontend
 RUN npm install
 
 FROM node:10-alpine
 COPY --from=base /frontend /frontend
-ENV PORT 9001
-ENV DATABASE_HOST node_backend
-ENV DATABASE_PORT 9000
+ARG PORT=9001
+ARG DATABASE_HOST=node_backend
+ARG DATABSE_PORT=9000
+ENV PORT $PORT
+ENV DATABASE_HOST $DATABASE_HOST
+ENV DATABASE_PORT $DATABASE_PORT
 EXPOSE $PORT
 WORKDIR /frontend
 
